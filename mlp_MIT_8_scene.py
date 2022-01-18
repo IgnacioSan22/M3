@@ -1,5 +1,6 @@
 import os
 import getpass
+import argparse
 
 
 from utils import *
@@ -11,12 +12,21 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 
+def parse_args():
+    parser = argparse.ArgumentParser(description= 'Arguments to run the task 1 script')
+    parser.add_argument('-i', '--img_size', type=int, default=32, help='Image size')
+    parser.add_argument('-m', '--model', default='/home/group05/m3/model_trained.h5', type=str, help='Absolute path to store the model')
+    parser.add_argument('-d', '--dataset', default='/home/mcv/datasets/MIT_split', type=str, help='Absolute path to the image dataset')
+
+    return parser.parse_args()
+
+args = parse_args()
 
 #user defined variables
 IMG_SIZE    = 32
 BATCH_SIZE  = 16
 DATASET_DIR = '/home/mcv/datasets/MIT_split'
-MODEL_FNAME = '/home/ramon/work/mcv3/my_first_mlp.h5'
+MODEL_FNAME = '/home/group05/m3/model_trained.h5'
 
 if not os.path.exists(DATASET_DIR):
   print(Color.RED, 'ERROR: dataset directory '+DATASET_DIR+' do not exists!\n')
@@ -29,7 +39,7 @@ print('Building MLP model...\n')
 model = Sequential()
 model.add(Reshape((IMG_SIZE*IMG_SIZE*3,),input_shape=(IMG_SIZE, IMG_SIZE, 3),name='first'))
 model.add(Dense(units=2048, activation='relu',name='second'))
-#model.add(Dense(units=1024, activation='relu'))
+model.add(Dense(units=1024, activation='relu'))
 model.add(Dense(units=8, activation='softmax'))
 
 model.compile(loss='categorical_crossentropy',
