@@ -1,12 +1,11 @@
 from keras.layers import Flatten, Dense, Reshape
 
-test_name = ['Relu-2', 'Relu-3', 'Relu-4', 'Tanh-2', 'Tanh-3', 'Tanh-4', 'Swish-2', 'Swish-3', 'Swish-4', 'ReluLin-5', 'ReluSig-5']
 
 net_configurations = [
 #1-layer MLP with Relu activation
       [['Reshape', 32, 32],
       ['Dense', 2048, 'relu'],
-      ['Dense', 8, 'softmax']]
+      ['Dense', 8, 'softmax']],
 
 #2-layer MLP with Relu activation
       [['Reshape', 32, 32],
@@ -72,5 +71,6 @@ net_configurations = [
       ['Dense', 1024, 'relu'],
       ['Dense', 512, 'relu'],
       ['Dense', 256, 'sigmoid'],
-      ['Dense', 8, 'softmax']],
+      ['Dense', 8, 'softmax']]
     ]
+test_name = ['Relu-2', 'Relu-3', 'Relu-4', 'Tanh-2', 'Tanh-3', 'Tanh-4', 'Swish-2', 'Swish-3', 'Swish-4', 'ReluLin-5', 'ReluSig-5']
