@@ -3,6 +3,9 @@ import os,sys
 import numpy as np
 from sklearn.feature_extraction import image
 from PIL import Image
+from keras.models import Sequential, Model
+from keras.layers import Flatten, Dense, Reshape
+import matplotlib.pyplot as plt
 
 def softmax(x):
     """Compute softmax values for each sets of scores in x."""
@@ -54,3 +57,56 @@ def generate_image_patches_db(in_directory,out_directory,patch_size=64):
           patch = Image.fromarray(patch)
           patch.save(os.path.join(out_directory,split_dir,class_dir,imname.split(',')[0]+'_'+str(i)+'.jpg'))
   print('\n')
+
+
+def createModel(activation='relu', neurons=2048, img_size = 32):
+#Build the Multi Layer Perceptron model
+    model = Sequential()
+    model.add(Reshape((img_size*img_size*3,),input_shape=(img_size, img_size, 3),name='first'))
+    model.add(Dense(units=neurons, activation=activation,name='second'))
+    model.add(Dense(units=8, activation='softmax'))
+
+    model.compile(loss='categorical_crossentropy',
+              optimizer='sgd',
+              metrics=['accuracy'])
+    
+    return model
+
+def createModelByLayers(layers):
+#Build the Multi Layer Perceptron model
+    model = Sequential()
+    for layer in layers:
+      model.add(layer)
+
+    model.compile(loss='categorical_crossentropy',
+              optimizer='sgd',
+              metrics=['accuracy'])
+    
+    return model
+
+def createModelByLayersSimple(layers):
+#Build the Multi Layer Perceptron model
+    model = Sequential()
+    for layer in layers:
+      if layer[0] == 'Reshape':
+        model.add(Reshape((layer[1]*layer[2]*3,),input_shape=(layer[1], layer[2], 3)))
+      else:
+        model.add(Dense(units=layer[1], activation=layer[2]))
+
+    model.compile(loss='categorical_crossentropy',
+              optimizer='sgd',
+              metrics=['accuracy'])
+    
+    return model
+
+def saveModel(model, histroy, path):
+  plt.plot(histroy.history['accuracy'])
+  plt.plot(histroy.history['val_accuracy'])
+  plt.title(f'model accuracy, layers: {len(model.layers)}')
+  plt.ylabel('accuracy')
+  plt.xlabel('epoch')
+  plt.savefig(path+'_accuracy.jpg')
+  plt.close()
+  print('Saving the model into '+path+' \n')
+  model.save_weights(path+'.h5')  # always save your weights after training or during training
+  print('Done!\n')
