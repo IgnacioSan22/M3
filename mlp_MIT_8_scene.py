@@ -91,17 +91,17 @@ for size in img_sizes:
       print(layers)
       save_name = 'results/batch_' + str(batch) + '-sz_' + str(size) + name
       print('Starting new NN test:', save_name)
-      
-      modelAux = createModelByLayersSimple(layers)
-      plot_model(modelAux, to_file=(save_name+'_model.png'), show_shapes=True, show_layer_names=True)
-      historyAux = modelAux.fit_generator(
-            train_generatorAux,
-            steps_per_epoch=1881 // batch,
-            epochs=50,
-            validation_data=validation_generatorAux,
-            validation_steps=807 // batch,
-            verbose=0)
-      saveModel(modelAux, historyAux, save_name)
+      if not os.path.exists((save_name+'.h5')):
+        modelAux = createModelByLayersSimple(layers)
+        plot_model(modelAux, to_file=(save_name+'_model.png'), show_shapes=True, show_layer_names=True)
+        historyAux = modelAux.fit_generator(
+              train_generatorAux,
+              steps_per_epoch=1881 // batch,
+              epochs=50,
+              validation_data=validation_generatorAux,
+              validation_steps=807 // batch,
+              verbose=0)
+        saveModel(modelAux, historyAux, save_name)
 
 
 # history = model.fit_generator(
