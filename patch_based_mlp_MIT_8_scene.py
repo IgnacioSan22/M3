@@ -8,8 +8,8 @@ from keras.preprocessing.image import ImageDataGenerator
 PATCH_SIZE  = 64
 BATCH_SIZE  = 16
 DATASET_DIR = '/home/mcv/datasets/MIT_split'
-PATCHES_DIR = '/home/grupoXX/work/data/MIT_split_patches'
-MODEL_FNAME = '/home/brupoXX/work/patch_based_mlp.h5'
+PATCHES_DIR = '/home/group05/work/data/MIT_split_patches'
+MODEL_FNAME = '/home/group05/work/patch_based_mlp.h5'
 
 def build_mlp(input_size=PATCH_SIZE,phase='TRAIN'):
   model = Sequential()
