@@ -26,6 +26,17 @@ def get_visual_words(descriptors, codebook, codebook_size):
 
     return StandardScaler().fit_transform(visual_words)
 
+def build_mlp(input_size=PATCH_SIZE,phase='TRAIN'):
+  model = Sequential()
+  model.add(Reshape((input_size*input_size*3,),input_shape=(input_size, input_size, 3)))
+  model.add(Dense(units=1024, activation='relu'))
+  model.add(Dense(units=1024, activation='relu'))
+  if phase=='TEST':
+    model.add(Dense(units=8, activation='linear')) # In test phase we softmax the average output over the image patches
+  else:
+    model.add(Dense(units=8, activation='softmax'))
+  return model
+
 train_images_filenames = pickle.load(open('train_images_filenames.dat','rb'))
 test_images_filenames = pickle.load(open('test_images_filenames.dat','rb'))
 train_images_filenames = ['..' + n[15:] for n in train_images_filenames]
@@ -39,13 +50,14 @@ BATCH_SIZE  = 16
 DATASET_DIR = "/home/mcv/datasets/MIT_split_64"
 PATCHES_DIR = '/home/group05/m3/data/MIT_split_patches_64'
 MODEL_FNAME = '/home/group05/m3/patch_based_mlp_64.h5'
-RESULTS_DIR = '/home/group05/m3/results_bow/'
+# RESULTS_DIR = '/home/group05/m3/results_bow/'
 
 if not os.path.exists(DATASET_DIR):
   print(Color.RED, 'ERROR: dataset directory '+DATASET_DIR+' do not exists!\n')
   quit()
 
-model = load_model(MODEL_FNAME)
+model = build_mlp(input_size=64)
+model.load_weights(MODEL_FNAME)
 model = Model(inputs=model.input, outputs=model.layers[-2].output)
 model.summary()
 
