@@ -36,10 +36,10 @@ test_labels = pickle.load(open('test_labels.dat','rb'))
 #user defined variables
 IMG_SIZE    = 32
 BATCH_SIZE  = 16
-DATASET_DIR = "/content/drive/MyDrive/M3_Project/MIT_split"
-PATCHES_DIR = '/content/drive/MyDrive/M3_Project/DeepLearning/MIT_split_patches'
-MODEL_FNAME = '/content/drive/MyDrive/M3_Project/DeepLearning/patch_based_mlp.h5'
-RESULTS_DIR = '/content/drive/MyDrive/M3_Project/DeepLearning/results/bow/'
+DATASET_DIR = "/home/mcv/datasets/MIT_split_64"
+PATCHES_DIR = '/home/group05/m3/data/MIT_split_patches_64'
+MODEL_FNAME = '/home/group05/m3/patch_based_mlp_64.h5'
+RESULTS_DIR = '/home/group05/m3/results_bow/'
 
 if not os.path.exists(DATASET_DIR):
   print(Color.RED, 'ERROR: dataset directory '+DATASET_DIR+' do not exists!\n')
