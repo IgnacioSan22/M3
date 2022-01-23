@@ -38,7 +38,7 @@ def build_mlp(input_size=64,phase='TRAIN'):
   return model
 
 #user defined variables
-IMG_SIZE    = 32
+IMG_SIZE    = 256
 BATCH_SIZE  = 16
 DATASET_DIR = '/home/mcv/datasets/MIT_split'
 PATCHES_DIR = '/home/group05/m3/data/MIT_split_patches_64'
