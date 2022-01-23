@@ -73,10 +73,9 @@ test_visual_words = get_visual_words(test_descriptors, codebook, codebook_size)
 classifier = svm.SVC(kernel='rbf')
 classifier.fit(train_visual_words,train_labels)
 
-compute_roc(train_visual_words, test_visual_words, train_labels, test_labels, classifier, RESULTS_DIR+'ROC.png')
-
 accuracy = classifier.score(test_visual_words, test_labels)
 
 print(f'Test accuracy: {accuracy}')
 
-save_confusion_matrix(test_labels, classifier.predict(test_visual_words), RESULTS_DIR+'confusion_matrix.png')
+# compute_roc(train_visual_words, test_visual_words, train_labels, test_labels, classifier, RESULTS_DIR+'ROC.png')
+# save_confusion_matrix(test_labels, classifier.predict(test_visual_words), RESULTS_DIR+'confusion_matrix.png')
