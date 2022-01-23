@@ -40,7 +40,7 @@ def build_mlp(input_size=64,phase='TRAIN'):
 #user defined variables
 IMG_SIZE    = 32
 BATCH_SIZE  = 16
-DATASET_DIR = "/home/group05/m3/datasets_brian/MIT_split"
+DATASET_DIR = '/home/mcv/datasets/MIT_split'
 PATCHES_DIR = '/home/group05/m3/data/MIT_split_patches_64'
 MODEL_FNAME = '/home/group05/m3/patch_based_mlp_64.h5'
 # RESULTS_DIR = '/home/group05/m3/results_bow/'
@@ -51,8 +51,8 @@ if not os.path.exists(DATASET_DIR):
 
 train_images_filenames = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/train_images_filenames.dat','rb'))
 test_images_filenames = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/test_images_filenames.dat','rb'))
-train_images_filenames = ['..' + n[15:] for n in train_images_filenames]
-test_images_filenames  = ['..' + n[15:] for n in test_images_filenames]
+train_images_filenames = ['/home/mcv/datasets/' + n[15:] for n in train_images_filenames]
+test_images_filenames  = ['/home/mcv/datasets/' + n[15:] for n in test_images_filenames]
 train_labels = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/train_labels.dat','rb'))
 test_labels = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/test_labels.dat','rb'))
 
