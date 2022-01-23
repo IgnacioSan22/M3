@@ -49,10 +49,10 @@ if not os.path.exists(DATASET_DIR):
   print(Color.RED, 'ERROR: dataset directory '+DATASET_DIR+' do not exists!\n')
   quit()
 
-train_images_filenames = pickle.load(open('/home/group05/m3/datasets_brian/train_images_filenames.dat','rb'))
-test_images_filenames = pickle.load(open('/home/group05/m3/datasets_brian/test_images_filenames.dat','rb'))
-train_labels = pickle.load(open('/home/group05/m3/datasets_brian/train_labels.dat','rb'))
-test_labels = pickle.load(open('/home/group05/m3/datasets_brian/test_labels.dat','rb'))
+train_images_filenames = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/train_images_filenames.dat','rb'))
+test_images_filenames = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/test_images_filenames.dat','rb'))
+train_labels = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/train_labels.dat','rb'))
+test_labels = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/test_labels.dat','rb'))
 
 model = build_mlp(input_size=64)
 model.load_weights(MODEL_FNAME)
