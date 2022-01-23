@@ -47,7 +47,7 @@ test_labels = pickle.load(open('test_labels.dat','rb'))
 #user defined variables
 IMG_SIZE    = 32
 BATCH_SIZE  = 16
-DATASET_DIR = "/home/mcv/datasets/MIT_split_64"
+DATASET_DIR = "/home/mcv/datasets/MIT_split"
 PATCHES_DIR = '/home/group05/m3/data/MIT_split_patches_64'
 MODEL_FNAME = '/home/group05/m3/patch_based_mlp_64.h5'
 # RESULTS_DIR = '/home/group05/m3/results_bow/'
