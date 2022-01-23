@@ -26,7 +26,7 @@ def get_visual_words(descriptors, codebook, codebook_size):
 
     return StandardScaler().fit_transform(visual_words)
 
-def build_mlp(input_size=PATCH_SIZE,phase='TRAIN'):
+def build_mlp(input_size=64,phase='TRAIN'):
   model = Sequential()
   model.add(Reshape((input_size*input_size*3,),input_shape=(input_size, input_size, 3)))
   model.add(Dense(units=1024, activation='relu'))
