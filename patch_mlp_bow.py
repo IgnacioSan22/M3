@@ -37,12 +37,10 @@ def build_mlp(input_size=64,phase='TRAIN'):
     model.add(Dense(units=8, activation='softmax'))
   return model
 
-train_images_filenames = pickle.load(open('train_images_filenames.dat','rb'))
-test_images_filenames = pickle.load(open('test_images_filenames.dat','rb'))
-train_images_filenames = ['..' + n[15:] for n in train_images_filenames]
-test_images_filenames  = ['..' + n[15:] for n in test_images_filenames]
-train_labels = pickle.load(open('train_labels.dat','rb'))
-test_labels = pickle.load(open('test_labels.dat','rb'))
+train_images_filenames = pickle.load(open('/home/group04/m3/data/train_images_filenames.dat','rb'))
+test_images_filenames = pickle.load(open('/home/group04/m3/data/test_images_filenames.dat','rb'))
+train_labels = pickle.load(open('/home/group04/m3/data/train_labels.dat','rb'))
+test_labels = pickle.load(open('/home/group04/m3/data/test_labels.dat','rb'))
 
 #user defined variables
 IMG_SIZE    = 32
