@@ -51,6 +51,8 @@ if not os.path.exists(DATASET_DIR):
 
 train_images_filenames = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/train_images_filenames.dat','rb'))
 test_images_filenames = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/test_images_filenames.dat','rb'))
+train_images_filenames = ['..' + n[15:] for n in train_images_filenames]
+test_images_filenames  = ['..' + n[15:] for n in test_images_filenames]
 train_labels = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/train_labels.dat','rb'))
 test_labels = pickle.load(open('/home/group05/m3/datasets_brian/MIT_split/test_labels.dat','rb'))
 
