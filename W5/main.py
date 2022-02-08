@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from baseline import make_model
 
 
-MODEL_NAME  = 'baseline'
+MODEL_NAME  = 'baseline_dropout_2layer'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 64
 BATCH_SIZE  = 16
@@ -59,7 +59,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(),
             loss=tf.keras.losses.CategoricalCrossentropy(),
             metrics=['accuracy'])
 
-train_history=model.fit(train_generator, epochs=50, validation_data=validation_generator)
+train_history=model.fit(train_generator, epochs=40, validation_data=validation_generator)
 
 #Plot accuracy evolution
 accuracy = train_history.history['accuracy']
