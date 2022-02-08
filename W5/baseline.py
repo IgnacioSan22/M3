@@ -21,7 +21,7 @@ def make_model(input_shape):
     x = layers.Conv2D(256,3,activation='relu', padding='same')(x)
     x = layers.Conv2D(256,3,activation='relu', padding='same')(x)
 
-    x = layers.MaxPooling2D(2)(x)
+    x = layers.AveragePooling2D(2)(x)
     x = layers.Flatten()(x)
 
     x = layers.Dense(128, activation='relu')(x)
