@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from baseline import make_model
 
 
-MODEL_NAME  = 'baseline_dropout_2layer'
+MODEL_NAME  = 'baseline_dropout_4Convlayer'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 64
 BATCH_SIZE  = 16

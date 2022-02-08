@@ -10,22 +10,25 @@ def make_model(input_shape):
 
     # Entry block
     x = layers.Conv2D(64,7,activation='relu',padding='same')(inputs)
-    x = layers.Dropout(0.8)(x)
+    x = layers.Dropout(0.2)(x)
     x = layers.MaxPooling2D(2)(x)
 
     # x = layers.LayerNormalization()(x)
     x = layers.Conv2D(128,3,activation='relu', padding='same')(x)
     x = layers.Dropout(0.2)(x)
-    # x = layers.MaxPooling2D(2)(x)
+    x = layers.MaxPooling2D(2)(x)
 
     # x = layers.LayerNormalization()(x)
-    # x = layers.Conv2D(256,3,activation='relu', padding='same')(x)
+    x = layers.Conv2D(256,3,activation='relu', padding='same')(x)
+    x = layers.Dropout(0.2)(x)
+    x = layers.MaxPooling2D(2)(x)
 
-    x = layers.AveragePooling2D(2)(x)
+    x = layers.Conv2D(512,3,activation='relu', padding='same')(x)
+    x = layers.AveragePooling2D(4)(x)
     x = layers.Flatten()(x)
 
-    x = layers.Dense(128, activation='relu')(x)
-    x = layers.Dense(64, activation='relu')(x)
+    # x = layers.Dense(128, activation='relu')(x)
+    # x = layers.Dense(64, activation='relu')(x)
 
     outputs = layers.Dense(8, activation="softmax")(x)
     return keras.Model(inputs, outputs)
