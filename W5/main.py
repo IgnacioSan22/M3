@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from baseline import make_model
 
 
-MODEL_NAME  = 'baseline_dropout_2Convlayer_11kern'
+MODEL_NAME  = 'baseline_BatchNorm'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 64
 BATCH_SIZE  = 16
@@ -55,11 +55,13 @@ keras.utils.plot_model(model, show_shapes=True, to_file='results/' + MODEL_NAME 
 trainable_count = count_params(model.trainable_weights)
 non_trainable_count = count_params(model.non_trainable_weights)
 
+callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=4)
+
 model.compile(optimizer=tf.keras.optimizers.Adam(),
             loss=tf.keras.losses.CategoricalCrossentropy(),
             metrics=['accuracy'])
 
-train_history=model.fit(train_generator, epochs=40, validation_data=validation_generator)
+train_history=model.fit(train_generator, epochs=40, validation_data=validation_generator, callbacks=[callback])
 
 #Plot accuracy evolution
 accuracy = train_history.history['accuracy']
