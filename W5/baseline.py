@@ -15,12 +15,12 @@ def make_model(input_shape):
     x = layers.MaxPooling2D(2)(x)
     # x = layers.Conv2D(128,11,activation='relu',padding='same')(x)
 
-    x = layers.BatchNormalization()(x)
+    # x = layers.BatchNormalization()(x)
     x = layers.Conv2D(128,3,activation='relu', padding='same')(x)
     x = layers.Dropout(0.2)(x)
     x = layers.MaxPooling2D(2)(x)
 
-    x = layers.BatchNormalization()(x)
+    # x = layers.BatchNormalization()(x)
     x = layers.Conv2D(256,3,activation='relu', padding='same')(x)
     x = layers.Dropout(0.2)(x)
     # x = layers.MaxPooling2D(2)(x)
