@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 from baseline import make_model
 
 
-MODEL_NAME  = 'baseline_24img_BatchNorm'
+MODEL_NAME  = 'baseline_24img_separableConv'
 DATASET_DIR =  "MIT_split"
-IMG_SIZE    = 24
-BATCH_SIZE  = 32
+IMG_SIZE    = 128
+BATCH_SIZE  = 16
 
 # this is the dataset configuration we will use for training
 # only rescaling
