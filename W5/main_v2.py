@@ -85,6 +85,7 @@ if save:
 counter = Counter(train_generator.classes)
 max_val = float(max(counter.values()))
 class_weight = {class_id : max_val/num_images for class_id, num_images in counter.items()}
+print('class weights: ', class_weight)
 
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005, decay=1e-2/epochs),
             loss=tf.keras.losses.CategoricalCrossentropy(),
