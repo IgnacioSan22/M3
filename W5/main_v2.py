@@ -1,4 +1,5 @@
 import tensorflow as tf
+from collections import Counter
 from tensorflow import keras
 from tensorflow.keras import layers
 from keras.utils.layer_utils import count_params
@@ -81,6 +82,10 @@ if save:
         model.summary(line_length=80, print_fn=lambda x: fh.write(x + '\n'))
         fh.close()
 
+counter = Counter(train_generator.classes)
+max_val = float(max(counter.values()))
+class_weight = {class_id : max_val/num_images for class_id, num_images in counter.items()}
+
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005, decay=1e-2/epochs),
             loss=tf.keras.losses.CategoricalCrossentropy(),
             metrics=['accuracy'])
@@ -92,6 +97,7 @@ callback.append(tf.keras.callbacks.LearningRateScheduler(scheduler))
 train_history=model.fit(train_generator, 
                         epochs=epochs, 
                         validation_data=validation_generator,
+                        class_weight = class_weight,
                         callbacks=callback
                         )
 
