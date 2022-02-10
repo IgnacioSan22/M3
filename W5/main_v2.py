@@ -20,8 +20,8 @@ BATCH_SIZE  = 64
 epochs = 100
 
 def scheduler(epoch):
-    if epoch < 5:
-        return 1e-5
+    if epoch < 3:
+        return 1e-6
     else:
         return 1e-3
 
@@ -87,7 +87,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005, decay=1e-
 
 callback = []
 callback.append(tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10))
-callback.append(tf.keras.callbacks.LearningRateScheduler(schedule))
+callback.append(tf.keras.callbacks.LearningRateScheduler(scheduler))
 
 train_history=model.fit(train_generator, 
                         epochs=epochs, 
