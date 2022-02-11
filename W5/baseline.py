@@ -24,60 +24,34 @@ def make_model_layers(input_shape, netLayers):
     outputs = layers.Dense(8, activation="softmax")(x)
     return keras.Model(inputs, outputs)
      
-
+data_augmentation = keras.Sequential(
+    [
+        # layers.RandomFlip("horizontal"),
+        layers.RandomRotation(0.1),
+        # layers.RandomZoom(0.2, 0.2),
+        # layers.RandomContrast((0.1, 0.9)),
+    ]
+)
 
 def make_model(input_shape):
     inputs = keras.Input(shape=input_shape)
-
+    x = data_augmentation(inputs)
     # Entry block
-    x = layers.Conv2D(64,7,activation='relu',padding='same')(inputs)
+    x = layers.BatchNormalization()(x)
+    x = layers.Conv2D(64,7,activation='relu',padding='same')(x)
+    # x = layers.Dropout(0.2)(x)
 
     x = layers.MaxPooling2D(2)(x)
-    x = layers.Activation("relu")(x)
-    x = layers.SeparableConv2D(128, 3, padding="same")(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.Activation("relu")(x)
-    x = layers.SeparableConv2D(128, 3, padding="same")(x)
-    x = layers.BatchNormalization()(x)
+    x = layers.Conv2D(128,3,activation='relu', padding='same')(x)
+    # x = layers.Dropout(0.2)(x)
 
     x = layers.MaxPooling2D(2)(x)
-    x = layers.Activation("relu")(x)
-    x = layers.SeparableConv2D(256, 3, padding="same")(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.Activation("relu")(x)
-    x = layers.SeparableConv2D(256, 3, padding="same")(x)
-    x = layers.BatchNormalization()(x)
-
-    x = layers.MaxPooling2D(2)(x)
-    x = layers.Activation("relu")(x)
-    x = layers.SeparableConv2D(512, 3, padding="same")(x)
-    x = layers.BatchNormalization()(x)
-    x = layers.Activation("relu")(x)
-    x = layers.SeparableConv2D(512, 3, padding="same")(x)
-    x = layers.BatchNormalization()(x)
-
-    # x = layers.MaxPooling2D(2)(x)
-    # x = layers.Activation("relu")(x)
-    # x = layers.SeparableConv2D(728, 3, padding="same")(x)
-    # x = layers.BatchNormalization()(x)
-    # x = layers.Activation("relu")(x)
-    # x = layers.SeparableConv2D(728, 3, padding="same")(x)
-    # x = layers.BatchNormalization()(x)
+    x = layers.Conv2D(256,3,activation='relu', padding='same')(x)
 
     x = layers.GlobalAveragePooling2D()(x)
     x = layers.Flatten()(x)
 
-    # x = layers.Dense(512, activation='relu')(x)
-    # x = layers.Dropout(0.2)(x)
-
-    # x = layers.Dense(256, activation='relu')(x)
-    # x = layers.Dropout(0.2)(x)
-
-    # x = layers.Dense(128, activation='relu')(x)
-    # x = layers.Dropout(0.4)(x)
-
-    # x = layers.Dense(64, activation='relu')(x)
-    x = layers.Dropout(0.5)(x)
+    x = layers.Dropout(0.3)(x)
 
     outputs = layers.Dense(8, activation="softmax")(x)
     return keras.Model(inputs, outputs)

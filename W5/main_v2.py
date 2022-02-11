@@ -8,16 +8,16 @@ import matplotlib.pyplot as plt
 
 # from squeeze_net import make_model
 # from sXception import make_model
-# from baseline import make_model
+from baseline import make_model
 # from ours import make_model
-from ours_v2 import make_model
+# from ours_v2 import make_model
 
 save = True
 
-MODEL_NAME = 'ours_v2'
+MODEL_NAME = 'basemodel_dropout_augRot'
 DATASET_DIR =  "MIT_split"
-IMG_SIZE    = 256
-BATCH_SIZE  = 64
+IMG_SIZE    = 128
+BATCH_SIZE  = 16
 epochs = 100
 
 def scheduler(epoch):
