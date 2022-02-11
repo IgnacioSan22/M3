@@ -1,4 +1,5 @@
 from sklearn import metrics
+from sklearn.utils import shuffle
 import tensorflow as tf
 from collections import Counter
 from tensorflow import keras
@@ -10,13 +11,14 @@ import numpy as np
 
 # from squeeze_net import make_model
 # from sXception import make_model
-from baseline import make_model
+# from baseline import make_model
+from best_baseline import make_model
 # from ours import make_model
 # from ours_v2 import make_model
 
 save = True
 
-MODEL_NAME = 'basemodel_layerNorm_AdamWarmlr'
+MODEL_NAME = 'predictionMap_test'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
 BATCH_SIZE  = 16
@@ -49,32 +51,48 @@ test_datagen = ImageDataGenerator(
 # this is a generator that will read pictures found in
 # subfolers of 'data/train', and indefinitely generate
 # batches of augmented image data
-train_generator = train_datagen.flow_from_directory(
-        DATASET_DIR+'/train',  # this is the target directory
-        target_size=(IMG_SIZE, IMG_SIZE),  # all images will be resized to IMG_SIZExIMG_SIZE
-        batch_size=BATCH_SIZE,
-        classes = ['coast','forest','highway','inside_city','mountain','Opencountry','street','tallbuilding'],
-        class_mode='categorical',
-        subset='training',
-        shuffle=True
-        )  # since we use binary_crossentropy loss, we need categorical labels
+# train_generator = train_datagen.flow_from_directory(
+#         DATASET_DIR+'/train',  # this is the target directory
+#         target_size=(IMG_SIZE, IMG_SIZE),  # all images will be resized to IMG_SIZExIMG_SIZE
+#         batch_size=BATCH_SIZE,
+#         classes = ['coast','forest','highway','inside_city','mountain','Opencountry','street','tallbuilding'],
+#         class_mode='categorical',
+#         subset='training',
+#         shuffle=True
+#         )  # since we use binary_crossentropy loss, we need categorical labels
 
-validation_generator = train_datagen.flow_from_directory(
-        DATASET_DIR+'/train',
-        target_size=(IMG_SIZE, IMG_SIZE),
-        batch_size=BATCH_SIZE,
-        classes = ['coast','forest','highway','inside_city','mountain','Opencountry','street','tallbuilding'],
-        class_mode='categorical',
-        subset='validation')
+# validation_generator = train_datagen.flow_from_directory(
+#         DATASET_DIR+'/train',
+#         target_size=(IMG_SIZE, IMG_SIZE),
+#         batch_size=BATCH_SIZE,
+#         classes = ['coast','forest','highway','inside_city','mountain','Opencountry','street','tallbuilding'],
+#         class_mode='categorical',
+#         subset='validation')
 
-# this is a similar generator, for validation data
-test_generator = test_datagen.flow_from_directory(
-        DATASET_DIR+'/test',
-        target_size=(IMG_SIZE, IMG_SIZE),
-        batch_size=BATCH_SIZE,
-        classes = ['coast','forest','highway','inside_city','mountain','Opencountry','street','tallbuilding'],
-        class_mode='categorical')
-
+# # this is a similar generator, for validation data
+# test_generator = test_datagen.flow_from_directory(
+#         DATASET_DIR+'/test',
+#         target_size=(IMG_SIZE, IMG_SIZE),
+#         batch_size=BATCH_SIZE,
+#         classes = ['coast','forest','highway','inside_city','mountain','Opencountry','street','tallbuilding'],
+#         class_mode='categorical')
+train_ds = tf.keras.preprocessing.image_dataset_from_directory(
+    DATASET_DIR+"/train",
+    labels="inferred",
+    label_mode="int",
+    seed=1337,
+    image_size=(IMG_SIZE,IMG_SIZE),
+    batch_size=BATCH_SIZE,
+    shuffle=True
+)
+val_ds = tf.keras.preprocessing.image_dataset_from_directory(
+    DATASET_DIR+"/test",
+    labels="inferred",
+    label_mode="int",
+    seed=1337,
+    image_size=(IMG_SIZE,IMG_SIZE),
+    batch_size=BATCH_SIZE,
+)
 
 
 model = make_model(input_shape=[IMG_SIZE, IMG_SIZE, 3])
@@ -92,23 +110,23 @@ if save:
         model.summary(line_length=80, print_fn=lambda x: fh.write(x + '\n'))
         fh.close()
 
-counter = Counter(train_generator.classes)
-max_val = float(max(counter.values()))
-class_weight = {class_id : max_val/num_images for class_id, num_images in counter.items()}
-print('class weights: ', class_weight)
+# counter = Counter(train_ds.classes)
+# max_val = float(max(counter.values()))
+# class_weight = {class_id : max_val/num_images for class_id, num_images in counter.items()}
+# print('class weights: ', class_weight)
 
 model.compile(optimizer=tf.keras.optimizers.Adam(),
-            loss=tf.keras.losses.CategoricalCrossentropy(),
+            loss=tf.keras.losses.SparseCategoricalCrossentropy(),
             metrics=['accuracy'])
 
 callback = []
 callback.append(tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10))
 callback.append(tf.keras.callbacks.LearningRateScheduler(scheduler))
 
-train_history=model.fit(train_generator, 
+train_history=model.fit_generator(train_ds, 
                         epochs=epochs, 
-                        validation_data=validation_generator,
-                        class_weight = class_weight,
+                        validation_data=val_ds,
+                        # class_weight = class_weight,
                         callbacks=callback
                         )
 
@@ -142,7 +160,7 @@ if save:
 plt.close()
 
 #Evaluating model performance on test set
-test_loss,test_accuracy=model.evaluate(test_generator)
+test_loss,test_accuracy=model.evaluate(val_ds)
 
 print('test_loss',test_loss)
 print('test_accuracy',test_accuracy)
