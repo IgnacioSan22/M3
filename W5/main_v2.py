@@ -16,17 +16,22 @@ from baseline import make_model
 
 save = True
 
-MODEL_NAME = 'basemodel_dropout_augF-Z'
+MODEL_NAME = 'basemodel_batchNorm_AdamWarmlr'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
 BATCH_SIZE  = 16
-epochs = 10
+epochs = 100
+initial_lr = 0.01
 
 def scheduler(epoch):
     if epoch < 3:
-        return 1e-6
+        return 1e-6 * epoch
     else:
         return 1e-3
+
+def lr_exp_decay(epoch):
+    k = 0.01
+    return initial_lr * np.exp(-k*epoch)
 
 # this is the dataset configuration we will use for training
 # only rescaling
@@ -92,7 +97,7 @@ max_val = float(max(counter.values()))
 class_weight = {class_id : max_val/num_images for class_id, num_images in counter.items()}
 print('class weights: ', class_weight)
 
-model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005, decay=1e-2/epochs),
+model.compile(optimizer=tf.keras.optimizers.Adam(),
             loss=tf.keras.losses.CategoricalCrossentropy(),
             metrics=['accuracy'])
 
@@ -146,7 +151,7 @@ performance_ratio = 100*test_accuracy/((trainable_count + non_trainable_count)/1
 print('performance_ratio',performance_ratio)
 
 if save:
-    if test_accuracy > 85.0:
+    if test_accuracy > 0.85:
         model.save('results/' + MODEL_NAME + '.h5', overwrite=True)
     L = ['test_loss: ',str(test_loss),'\n','test_accuracy: ',str(test_accuracy),'\n','performance_ratio: ',str(performance_ratio)]
     with open('results/' + MODEL_NAME + '_summary.txt','a') as fh:

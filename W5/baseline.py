@@ -35,17 +35,19 @@ data_augmentation = keras.Sequential(
 
 def make_model(input_shape):
     inputs = keras.Input(shape=input_shape)
-    x = data_augmentation(inputs)
+    # x = data_augmentation(inputs)
     # Entry block
-    x = layers.BatchNormalization()(x)
+    x = layers.BatchNormalization()(inputs)
     x = layers.Conv2D(64,7,activation='relu',padding='same')(x)
     # x = layers.Dropout(0.2)(x)
 
     x = layers.MaxPooling2D(2)(x)
+    x = layers.BatchNormalization()(x)
     x = layers.Conv2D(128,3,activation='relu', padding='same')(x)
     # x = layers.Dropout(0.2)(x)
 
     x = layers.MaxPooling2D(2)(x)
+    x = layers.BatchNormalization()(x)
     x = layers.Conv2D(256,3,activation='relu', padding='same')(x)
 
     x = layers.GlobalAveragePooling2D()(x)
