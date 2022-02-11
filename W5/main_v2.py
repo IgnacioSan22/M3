@@ -16,7 +16,7 @@ from baseline import make_model
 
 save = True
 
-MODEL_NAME = 'basemodel_batchNorm_AdamWarmlr'
+MODEL_NAME = 'basemodel_layerNorm_AdamWarmlr'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
 BATCH_SIZE  = 16
@@ -25,7 +25,7 @@ initial_lr = 0.01
 
 def scheduler(epoch):
     if epoch < 3:
-        return 1e-6 * epoch
+        return 1e-6 * (epoch+1)
     else:
         return 1e-3
 
