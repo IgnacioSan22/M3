@@ -8,7 +8,7 @@ from sklearn import metrics
 
 
 
-MODEL_NAME = 'basemodel_layerNorm_AdamWarmlr'
+MODEL_NAME = 'best_913_zoomAug_LayerNorm_Dropout'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
 
@@ -30,10 +30,12 @@ n_classes = len(class_names)
 print("Number of classes: ", n_classes)
 
 #Load trained model
+print('Loading model...')
 model = keras.models.load_model('results/' + MODEL_NAME + '.h5')
 
 y_true = []
 y_pred = []
+print('Predicting class for test images')
 #Predict class for all test imaeges
 for image,label in val_ds.take(-1):
   y_true.append(label.numpy()[0])
@@ -41,7 +43,8 @@ for image,label in val_ds.take(-1):
   y_pred.append(np.argmax(y_p))
 
 #Check class balance of learned model
-metrics.balanced_accuracy_score(y_true,y_pred)
+balance_acc = metrics.balanced_accuracy_score(y_true,y_pred)
+print(f'Balanced accuracy of the system: {balance_acc}')
 
 def visualize_wrong_predictions(image_filenames, labels, predictions, samples_per_class=5):
     print(f'Number of samples: {len(predictions)}')
@@ -51,7 +54,7 @@ def visualize_wrong_predictions(image_filenames, labels, predictions, samples_pe
     classes = np.unique(np.array(labels))
     num_classes = len(classes)
     #set size for plot
-    plt.figure(figsize=(24,16))
+    plt.figure(figsize=(48,32))
     
     def get_index_fp(idxs):
         items = []

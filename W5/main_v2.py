@@ -18,10 +18,10 @@ from best_baseline import make_model
 
 save = True
 
-MODEL_NAME = 'predictionMap_test'
+MODEL_NAME = 'best_model_100epochs_128sz_batch8'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
-BATCH_SIZE  = 16
+BATCH_SIZE  = 8
 epochs = 100
 initial_lr = 0.01
 
