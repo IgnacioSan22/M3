@@ -33,6 +33,6 @@ Total params: 380,564
 Trainable params: 380,558
 Non-trainable params: 6
 ________________________________________________________________________________
-test_loss: 0.5648243427276611
-test_accuracy: 0.8128872513771057
-performance_ratio: 21.360066936891187
+test_loss: 0.9004812836647034
+test_accuracy: 0.7050805687904358
+performance_ratio: 18.52725346565718

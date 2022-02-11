@@ -1,3 +1,4 @@
+from sklearn import metrics
 import tensorflow as tf
 from collections import Counter
 from tensorflow import keras
@@ -5,6 +6,7 @@ from tensorflow.keras import layers
 from keras.utils.layer_utils import count_params
 from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
+import numpy as np
 
 # from squeeze_net import make_model
 # from sXception import make_model
@@ -14,11 +16,11 @@ from baseline import make_model
 
 save = True
 
-MODEL_NAME = 'basemodel_dropout_augRot'
+MODEL_NAME = 'basemodel_dropout_augF-Z'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
 BATCH_SIZE  = 16
-epochs = 100
+epochs = 10
 
 def scheduler(epoch):
     if epoch < 3:
@@ -48,7 +50,8 @@ train_generator = train_datagen.flow_from_directory(
         batch_size=BATCH_SIZE,
         classes = ['coast','forest','highway','inside_city','mountain','Opencountry','street','tallbuilding'],
         class_mode='categorical',
-        subset='training'
+        subset='training',
+        shuffle=True
         )  # since we use binary_crossentropy loss, we need categorical labels
 
 validation_generator = train_datagen.flow_from_directory(
@@ -66,6 +69,8 @@ test_generator = test_datagen.flow_from_directory(
         batch_size=BATCH_SIZE,
         classes = ['coast','forest','highway','inside_city','mountain','Opencountry','street','tallbuilding'],
         class_mode='categorical')
+
+
 
 model = make_model(input_shape=[IMG_SIZE, IMG_SIZE, 3])
 
@@ -101,6 +106,8 @@ train_history=model.fit(train_generator,
                         class_weight = class_weight,
                         callbacks=callback
                         )
+
+
 
 #Plot accuracy evolution
 accuracy = train_history.history['accuracy']
@@ -139,7 +146,8 @@ performance_ratio = 100*test_accuracy/((trainable_count + non_trainable_count)/1
 print('performance_ratio',performance_ratio)
 
 if save:
-    # model.save_weights('results/' + MODEL_NAME + '.h5', overwrite=True)
+    if test_accuracy > 85.0:
+        model.save('results/' + MODEL_NAME + '.h5', overwrite=True)
     L = ['test_loss: ',str(test_loss),'\n','test_accuracy: ',str(test_accuracy),'\n','performance_ratio: ',str(performance_ratio)]
     with open('results/' + MODEL_NAME + '_summary.txt','a') as fh:
         fh.writelines(L)
