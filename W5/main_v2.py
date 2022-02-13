@@ -19,12 +19,12 @@ from baseline import make_model
 
 save = True
 
-MODEL_NAME = 'best_model_separable_300epoch_noAug'
+MODEL_NAME = 'best_model_4lay_separable_300epoch_ZoomFlip'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
 BATCH_SIZE  = 16
 epochs = 300
-initial_lr = 0.01
+initial_lr = 0.03
 
 def scheduler(epoch):
     if epoch < 3:
@@ -122,7 +122,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(),
             metrics=['accuracy'])
 
 callback = []
-callback.append(tf.keras.callbacks.EarlyStopping(monitor='loss', patience=10))
+callback.append(tf.keras.callbacks.EarlyStopping(monitor='loss', patience=6))
 callback.append(tf.keras.callbacks.LearningRateScheduler(scheduler))
 
 train_history=model.fit_generator(train_ds, 

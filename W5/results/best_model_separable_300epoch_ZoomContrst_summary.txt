@@ -1,0 +1,45 @@
+Model: "model"
+________________________________________________________________________________
+ Layer (type)                       Output Shape                    Param #     
+================================================================================
+ input_1 (InputLayer)               [(None, 128, 128, 3)]           0           
+                                                                                
+ sequential (Sequential)            (None, 128, 128, 3)             0           
+                                                                                
+ batch_normalization (BatchNormaliz  (None, 128, 128, 3)            12          
+ ation)                                                                         
+                                                                                
+ conv2d (Conv2D)                    (None, 128, 128, 64)            9472        
+                                                                                
+ max_pooling2d (MaxPooling2D)       (None, 64, 64, 64)              0           
+                                                                                
+ layer_normalization (LayerNormaliz  (None, 64, 64, 64)             128         
+ ation)                                                                         
+                                                                                
+ separable_conv2d (SeparableConv2D)  (None, 64, 64, 128)            8896        
+                                                                                
+ max_pooling2d_1 (MaxPooling2D)     (None, 32, 32, 128)             0           
+                                                                                
+ layer_normalization_1 (LayerNormal  (None, 32, 32, 128)            256         
+ ization)                                                                       
+                                                                                
+ separable_conv2d_1 (SeparableConv2  (None, 32, 32, 256)            34176       
+ D)                                                                             
+                                                                                
+ global_average_pooling2d (GlobalAv  (None, 256)                    0           
+ eragePooling2D)                                                                
+                                                                                
+ flatten (Flatten)                  (None, 256)                     0           
+                                                                                
+ dropout (Dropout)                  (None, 256)                     0           
+                                                                                
+ dense (Dense)                      (None, 8)                       2056        
+                                                                                
+================================================================================
+Total params: 54,996
+Trainable params: 54,990
+Non-trainable params: 6
+________________________________________________________________________________
+test_loss: 0.38679078221321106
+test_accuracy: 0.894671618938446
+performance_ratio: 162.67939830868536
