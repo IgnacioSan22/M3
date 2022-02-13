@@ -1,3 +1,4 @@
+import os
 from sklearn import metrics
 from sklearn.utils import shuffle
 import tensorflow as tf
@@ -11,18 +12,18 @@ import numpy as np
 
 # from squeeze_net import make_model
 # from sXception import make_model
-# from baseline import make_model
-from best_baseline import make_model
+from baseline import make_model
+# from best_baseline import make_model
 # from ours import make_model
 # from ours_v2 import make_model
 
 save = True
 
-MODEL_NAME = 'best_model_100epochs_128sz_batch8'
+MODEL_NAME = 'best_model_separable_300epoch_noAug'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
-BATCH_SIZE  = 8
-epochs = 100
+BATCH_SIZE  = 16
+epochs = 300
 initial_lr = 0.01
 
 def scheduler(epoch):
@@ -93,6 +94,7 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
     image_size=(IMG_SIZE,IMG_SIZE),
     batch_size=BATCH_SIZE,
 )
+
 
 
 model = make_model(input_shape=[IMG_SIZE, IMG_SIZE, 3])
