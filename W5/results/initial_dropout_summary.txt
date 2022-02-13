@@ -1,0 +1,31 @@
+Model: "model"
+________________________________________________________________________________
+ Layer (type)                       Output Shape                    Param #     
+================================================================================
+ input_1 (InputLayer)               [(None, 126, 126, 3)]           0           
+                                                                                
+ conv2d (Conv2D)                    (None, 126, 126, 64)            9472        
+                                                                                
+ max_pooling2d (MaxPooling2D)       (None, 63, 63, 64)              0           
+                                                                                
+ conv2d_1 (Conv2D)                  (None, 63, 63, 128)             73856       
+                                                                                
+ max_pooling2d_1 (MaxPooling2D)     (None, 31, 31, 128)             0           
+                                                                                
+ conv2d_2 (Conv2D)                  (None, 31, 31, 256)             295168      
+                                                                                
+ average_pooling2d (AveragePooling2  (None, 15, 15, 256)            0           
+ D)                                                                             
+                                                                                
+ flatten (Flatten)                  (None, 57600)                   0           
+                                                                                
+ dense (Dense)                      (None, 8)                       460808      
+                                                                                
+================================================================================
+Total params: 839,304
+Trainable params: 839,304
+Non-trainable params: 0
+________________________________________________________________________________
+test_loss: 4.369939804077148
+test_accuracy: 0.6109045743942261
+performance_ratio: 7.278704431221895

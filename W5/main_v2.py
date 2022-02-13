@@ -9,21 +9,24 @@ from keras.utils.layer_utils import count_params
 from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 import numpy as np
+import time
+
 
 # from squeeze_net import make_model
 # from sXception import make_model
-from baseline import make_model
+from model_net import make_model
+# from baseline import make_model
 # from best_baseline import make_model
 # from ours import make_model
 # from ours_v2 import make_model
 
 save = True
 
-MODEL_NAME = 'best_model_2lay_separable_300epoch_ZoomFlip'
+MODEL_NAME = 'initial_dropout'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
 BATCH_SIZE  = 16
-epochs = 300
+epochs = 100
 initial_lr = 0.03
 
 def scheduler(epoch):
@@ -125,13 +128,15 @@ callback = []
 callback.append(tf.keras.callbacks.EarlyStopping(monitor='loss', patience=6))
 callback.append(tf.keras.callbacks.LearningRateScheduler(scheduler))
 
+start = time.time()
 train_history=model.fit_generator(train_ds, 
                         epochs=epochs, 
                         validation_data=val_ds,
                         # class_weight = class_weight,
                         callbacks=callback
                         )
-
+end = time.time()
+print(f'Elapsed time: {end - start}')
 
 
 #Plot accuracy evolution
