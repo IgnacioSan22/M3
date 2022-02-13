@@ -19,7 +19,7 @@ from baseline import make_model
 
 save = True
 
-MODEL_NAME = 'best_model_4lay_separable_300epoch_ZoomFlip'
+MODEL_NAME = 'best_model_2lay_separable_300epoch_ZoomFlip'
 DATASET_DIR =  "MIT_split"
 IMG_SIZE    = 128
 BATCH_SIZE  = 16
